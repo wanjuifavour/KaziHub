@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/toast.css">
+    <link rel="icon" type="image/x-icon" href="./assets/icon.png">
+    <title>KaziHub</title>
+</head>
+
+<body>
+    <header>
+        <h1>KAZI HUB</h1>
+        <nav>
+            <button type="button" id="loginBtn">Login</button>
+            <button type="button" id="registerBtn">Register</button>
+        </nav>
+    </header>
+    <main id="content">
+        <h2>Welcome</h2>
+        <p>Manage employees, roles, and messaging effectively.</p>
+    </main>
+    <footer>
+        <p>&copy; 2025 Employee Management System</p>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="loginModal">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="loginEmail">Email:</label>
+                <input id="loginEmail" placeholder="Email">
+
+                <label for="loginPassword">Password:</label>
+                <input id="loginPassword" placeholder="Password">
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="registerModal">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <label for="regEmail">Email:</label>
+                <input id="regEmail" placeholder="Email">
+
+                <label for="regPassword">Password:</label>
+                <input id="regPassword" placeholder="Password">
+
+                <label for="role">Role:</label>
+                <select id="role">
+                    <option value="Admin">Admin</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Employee">Employee</option>
+                </select>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="./scripts/index.js" defer></script>
+    <script type="module" src="./scripts/auth.js" defer></script>
+</body>
+
+</html>
