@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/styles.css">
-    <link rel="stylesheet" href="./styles/toast.css">
-    <link rel="icon" type="image/x-icon" href="./assets/icon.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="stylesheet" href="./styles/toast.css" />
+    <link rel="icon" type="image/x-icon" href="./assets/icon.png" />
     <title>KaziHub</title>
 </head>
 
@@ -33,13 +33,14 @@
             <h2>Login</h2>
             <form id="loginForm">
                 <label for="loginEmail">Email:</label>
-                <input id="loginEmail" placeholder="Email">
+                <input id="loginEmail" placeholder="Email" />
 
                 <label for="loginPassword">Password:</label>
-                <input id="loginPassword" placeholder="Password">
+                <input id="loginPassword" placeholder="Password" />
 
                 <button type="submit">Login</button>
             </form>
+            <a href="#" id="showForgotPassword">Forgot Password?</a>
         </div>
     </div>
 
@@ -49,20 +50,55 @@
             <span class="close" data-target="registerModal">&times;</span>
             <h2>Register</h2>
             <form id="registerForm">
+                <label for="userName">Name:</label>
+                <input id="userName" placeholder="Name" />
+
                 <label for="regEmail">Email:</label>
-                <input id="regEmail" placeholder="Email">
+                <input id="regEmail" placeholder="Email" />
 
                 <label for="regPassword">Password:</label>
-                <input id="regPassword" placeholder="Password">
+                <input id="regPassword" placeholder="Password" />
 
                 <label for="role">Role:</label>
-                <select id="role">
-                    <option value="Admin">Admin</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Employee">Employee</option>
-                </select>
+                <div class="select-wrapper">
+                    <select id="role" required>
+                        <option value="" selected disabled hidden>Select Role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Employee">Employee</option>
+                    </select>
+                </div>
 
                 <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="forgotPasswordModal">&times;</span>
+            <h2>Forgot Password</h2>
+            <form id="forgotPasswordForm">
+                <label for="forgotEmail">Email:</label>
+                <input id="forgotEmail" type="email" placeholder="Email" required />
+                <button type="submit">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" data-target="resetPasswordModal">&times;</span>
+            <h2>Reset Password</h2>
+            <form id="resetPasswordForm">
+                <input type="hidden" id="resetToken" />
+                <label for="newPassword">New Password:</label>
+                <input id="newPassword" type="password" placeholder="New Password" required />
+                <label for="confirmPassword">Confirm Password:</label>
+                <input id="confirmPassword" type="password" placeholder="Confirm Password" required />
+                <button type="submit">Reset Password</button>
             </form>
         </div>
     </div>

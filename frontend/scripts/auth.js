@@ -1,5 +1,7 @@
 import showToast from './toast.js';
 
+const API_BASE = 'http://localhost:5000';
+
 document.addEventListener('DOMContentLoaded', () => {
     // Function to validate email
     const isValidEmail = (email) => {
@@ -14,79 +16,267 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Login Form Submission
     const loginForm = document.getElementById('loginForm');
-    loginForm?.addEventListener('submit', (e) => {
+    loginForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
 
-        // Validate inputs
-        if (!email || !isValidEmail(email)) {
-            showToast('Please enter a valid email address (e.g., user@example.com)', 'error');
+        // Basic validation
+        if (!email || !password) {
+            showToast('Please fill in all fields', 'error');
             return;
         }
 
-        if (!password || !isValidPassword(password)) {
-            showToast('Password must be at least 6 characters long', 'error');
-            return;
-        }
+        const submitBtn = e.target.querySelector('button');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Logging in...';
 
-        // Handle successful login
-        fetch('http://localhost:5000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    showToast(`Logged in as ${email}`, 'success');                    document.getElementById('loginModal').classList.add('hidden');
-                } else {
-                    showToast(data.message, 'error');
-                }
-            })
-            .catch(error => showToast('Error logging in.', 'error'));
+        try {
+            // Check if user exists
+            const response = await fetch(`${API_BASE}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
+            const users = await response.json();
+            
+            if (users.length === 0) {
+                showToast('Invalid credentials', 'error');
+                return;
+            }
+
+            const user = users[0];
+            localStorage.setItem('user', JSON.stringify(user));
+            showToast(`Welcome ${user.name}!`, 'success');
+            
+            // Redirect based on role
+            if (user.role === 'Admin') {
+                window.location.href = 'mgmt.html';
+            } else {
+                // Add redirects for other roles here
+                window.location.reload();
+            }
+        } catch (error) {
+            showToast('Login failed', 'error');
+            console.error('Login error:', error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Login';
+        }
     });
 
     // Register Form Submission
     const registerForm = document.getElementById('registerForm');
-    registerForm?.addEventListener('submit', (e) => {
+    registerForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const name = document.getElementById('userName').value.trim();
         const email = document.getElementById('regEmail').value.trim();
         const password = document.getElementById('regPassword').value.trim();
         const role = document.getElementById('role').value;
 
-        // Validate inputs
+        // Validation
+        if (!name || !email || !password || !role) {
+            showToast('Please fill all fields', 'error');
+            return;
+        }
+
+        const submitBtn = e.target.querySelector('button');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Registering...';
+
+        try {
+            // Check if email exists
+            const checkResponse = await fetch(`${API_BASE}/users?email=${encodeURIComponent(email)}`);
+            const existingUsers = await checkResponse.json();
+            
+            if (existingUsers.length > 0) {
+                showToast('Email already registered', 'error');
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                name,
+                email,
+                password, // Note: In real application, hash password
+                role,
+                createdAt: new Date().toISOString()
+            };
+
+            const createResponse = await fetch(`${API_BASE}/users`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newUser)
+            });
+
+            const createdUser = await createResponse.json();
+            showToast('Registration successful!', 'success');
+            document.getElementById('registerModal').classList.add('hidden');
+        } catch (error) {
+            showToast('Registration failed', 'error');
+            console.error('Registration error:', error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Register';
+        }
+    });
+
+    // Forgot Password Form Submission
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    forgotPasswordForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('forgotEmail').value.trim();
+
         if (!email || !isValidEmail(email)) {
-            showToast('Please enter a valid email address (e.g., user@example.com)', 'error');
+            showToast('Please enter a valid email address', 'error');
             return;
         }
 
-        if (!password || !isValidPassword(password)) {
-            showToast('Password must be at least 6 characters long', 'error');
-            return;
-        }
-
-        if (!role) {
-            showToast('Please select a role', 'error');
-            return;
-        }
-
-        // Send registration request
-        fetch('http://localhost:5000/register', {
+        fetch('http://localhost:5000/forgot-password', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password, role })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
         })
             .then(response => response.json())
             .then(data => {
                 showToast(data.message, 'success');
-                document.getElementById('registerModal').classList.add('hidden');
+                document.getElementById('forgotPasswordModal').classList.add('hidden');
             })
-            .catch(error => showToast('Error registering user.', 'error'));
+            .catch(() => showToast('Error sending reset link', 'error'));
     });
+
+    // Reset Password Form Submission
+    const resetPasswordForm = document.getElementById('resetPasswordForm');
+    resetPasswordForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const token = document.getElementById('resetToken').value;
+
+        if (newPassword !== confirmPassword) {
+            showToast('Passwords do not match', 'error');
+            return;
+        }
+
+        if (!isValidPassword(newPassword)) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+
+        fetch('http://localhost:5000/reset-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, newPassword })
+        })
+            .then(response => response.json())
+            .then(data => {
+                showToast(data.message, 'success');
+                document.getElementById('resetPasswordModal').classList.add('hidden');
+            })
+            .catch(() => showToast('Error resetting password', 'error'));
+    });
+
+    // Add event listener for forgot password link
+    document.getElementById('showForgotPassword')?.addEventListener('click', () => {
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('forgotPasswordModal').classList.remove('hidden');
+    });
+
+    // Add role-based UI handling
+    function updateUI(user) {
+        const headerNav = document.querySelector('header nav');
+        if (user) {
+            headerNav.innerHTML = `
+            <span>Welcome, ${user.role}</span>
+            <button type="button" id="logoutBtn">Logout</button>
+        `;
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            loadRoleSpecificContent(user.role);
+        } else {
+            headerNav.innerHTML = `
+            <button type="button" id="loginBtn">Login</button>
+            <button type="button" id="registerBtn">Register</button>
+        `;
+            // Reattach login/register listeners
+            document.getElementById('loginBtn').addEventListener('click', () =>
+                document.getElementById('loginModal').classList.remove('hidden'));
+            document.getElementById('registerBtn').addEventListener('click', () =>
+                document.getElementById('registerModal').classList.remove('hidden'));
+        }
+    }
+
+    function loadRoleSpecificContent(role) {
+        const mainContent = document.getElementById('content');
+        // Add role-specific content here
+        mainContent.innerHTML = `
+        <h2>${role} Dashboard</h2>
+        <div class="dashboard-content">
+            <!-- Add role-specific features here -->
+        </div>
+    `;
+    }
+
+    function logout() {
+        localStorage.removeItem('user');
+        showToast('Successfully logged out', 'success');
+        updateUI(null);
+    }
+
+    // Initialize UI based on auth state
+    const user = JSON.parse(localStorage.getItem('user'));
+    updateUI(user);
 });
+
+// New helper functions
+function validateLoginInputs(email, password) {
+    if (!isValidEmail(email)) {
+        showToast('Please enter a valid email address', 'error');
+        return false;
+    }
+    if (!isValidPassword(password)) {
+        showToast('Password must be at least 6 characters', 'error');
+        return false;
+    }
+    return true;
+}
+
+function handleLoginResponse(response) {
+    return response.json().then(data => {
+        if (response.ok) {
+            localStorage.setItem('user', JSON.stringify(data));
+            showToast(`Logged in as ${data.email}`, 'success');
+            document.getElementById('loginModal').classList.add('hidden');
+            window.location.reload();
+        } else {
+            showToast(data.error || 'Login failed', 'error');
+        }
+    });
+}
+
+function resetButton(button, originalText) {
+    button.disabled = false;
+    button.textContent = originalText;
+}
+
+function validateRegistrationInputs(email, password, role) {
+    if (!isValidEmail(email)) {
+        showToast('Please enter a valid email address', 'error');
+        return false;
+    }
+    if (!isValidPassword(password)) {
+        showToast('Password must be at least 6 characters', 'error');
+        return false;
+    }
+    if (!role) {
+        showToast('Please select a role', 'error');
+        return false;
+    }
+    return true;
+}
+
+function handleRegistrationResponse(response) {
+    return response.json().then(data => {
+        showToast(data.message, 'success');
+        document.getElementById('registerModal').classList.add('hidden');
+    });
+}
+
+function handleRegistrationError(error) {
+    showToast('Error registering user.', 'error');
+}
