@@ -34,6 +34,22 @@
       "email": "jane@gmail.com",
       "role": "employee",
       "password": "123456"
+    },
+    {
+      "id": "acca",
+      "name": "Alex Wammbua",
+      "email": "a.wambua@gmail.com",
+      "password": "12345678",
+      "role": "Manager",
+      "createdAt": "2025-01-25T21:08:39.265Z"
+    },
+    {
+      "id": "833c",
+      "name": "New user",
+      "email": "user2@gmail.com",
+      "password": "12345678",
+      "role": "Admin",
+      "createdAt": "2025-01-25T21:14:08.721Z"
     }
   ],
   "employees": [
@@ -76,6 +92,24 @@
       "email": "john@gmail.con",
       "phoneNumber": "07986754",
       "salary": "90000"
+    },
+    {
+      "id": "e0cb",
+      "name": "Alex Wammbua",
+      "email": "a.wambua@gmail.com",
+      "department": "Unassigned",
+      "position": "New Hire",
+      "phoneNumber": "",
+      "salary": 0
+    },
+    {
+      "id": "86ea",
+      "name": "New user",
+      "email": "user2@gmail.com",
+      "department": "Unassigned",
+      "position": "New Hire",
+      "phoneNumber": "",
+      "salary": 0
     }
   ],
   "messages": [
