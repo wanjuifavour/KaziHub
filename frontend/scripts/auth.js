@@ -33,25 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Check if user exists
-            const response = await fetch(`${API_BASE}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
+            const response = await fetch(`${API_BASE}/users?email=${encodeURIComponent(email)}`);
             const users = await response.json();
+            const user = users.find(u => u.email === email && u.password === password);
             
-            if (users.length === 0) {
+            if (!user) {
                 showToast('Invalid credentials', 'error');
                 return;
             }
 
-            const user = users[0];
-            localStorage.setItem('user', JSON.stringify(user));
-            showToast(`Welcome ${user.name}!`, 'success');
-            
-            // Redirect based on role
-            if (user.role === 'Admin') {
-                window.location.href = 'mgmt.html';
-            } else {
-                // Add redirects for other roles here
-                window.location.reload();
-            }
+            handleLoginSuccess(user);
         } catch (error) {
             showToast('Login failed', 'error');
             console.error('Login error:', error);
@@ -108,6 +99,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const createdUser = await createResponse.json();
             showToast('Registration successful!', 'success');
             document.getElementById('registerModal').classList.add('hidden');
+
+            // Add employee creation logic after user registration
+            await fetch(`${API_BASE}/employees`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    department: 'Unassigned',
+                    position: 'New Hire',
+                    phoneNumber: '',
+                    salary: 0
+                })
+            });
         } catch (error) {
             showToast('Registration failed', 'error');
             console.error('Registration error:', error);
@@ -181,24 +186,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add role-based UI handling
     function updateUI(user) {
         const headerNav = document.querySelector('header nav');
+        
         if (user) {
             headerNav.innerHTML = `
-            <span>Welcome, ${user.role}</span>
-            <button type="button" id="logoutBtn">Logout</button>
-        `;
-            document.getElementById('logoutBtn').addEventListener('click', logout);
-            loadRoleSpecificContent(user.role);
+                <span>Welcome, ${user.role}</span>
+                <button type="button" id="logoutBtn">Logout</button>
+            `;
         } else {
             headerNav.innerHTML = `
-            <button type="button" id="loginBtn">Login</button>
-            <button type="button" id="registerBtn">Register</button>
-        `;
-            // Reattach login/register listeners
-            document.getElementById('loginBtn').addEventListener('click', () =>
-                document.getElementById('loginModal').classList.remove('hidden'));
-            document.getElementById('registerBtn').addEventListener('click', () =>
-                document.getElementById('registerModal').classList.remove('hidden'));
+                <button type="button" id="loginBtn">Login</button>
+                <button type="button" id="registerBtn">Register</button>
+            `;
         }
+        
+        // Setup button listeners after DOM update
+        setupButtonListeners();
     }
 
     function loadRoleSpecificContent(role) {
@@ -215,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function logout() {
         localStorage.removeItem('user');
         showToast('Successfully logged out', 'success');
-        updateUI(null);
+        window.location.href = 'index.html';
     }
 
     // Initialize UI based on auth state
@@ -279,4 +281,49 @@ function handleRegistrationResponse(response) {
 
 function handleRegistrationError(error) {
     showToast('Error registering user.', 'error');
+}
+
+function setupButtonListeners() {
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    // Remove old listeners
+    const cleanupListeners = () => {
+        loginBtn?.replaceWith(loginBtn?.cloneNode(true));
+        registerBtn?.replaceWith(registerBtn?.cloneNode(true));
+        logoutBtn?.replaceWith(logoutBtn?.cloneNode(true));
+    };
+
+    // Clean up first
+    cleanupListeners();
+
+    // Setup new listeners
+    document.getElementById('loginBtn')?.addEventListener('click', () => {
+        document.getElementById('loginModal').classList.remove('hidden');
+    });
+
+    document.getElementById('registerBtn')?.addEventListener('click', () => {
+        document.getElementById('registerModal').classList.remove('hidden');
+    });
+
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        logout();
+    });
+}
+
+function handleLoginSuccess(user) {
+    localStorage.setItem('user', JSON.stringify(user));
+    showToast(`Welcome ${user.name}!`, 'success');
+    updateUI(user);
+    
+    // Role-based navigation
+    const role = user.role.toLowerCase();
+    if (role === 'admin') {
+        window.location.href = 'admin.html';
+    } else if (role === 'manager') {
+        window.location.href = 'manager.html';
+    } else {
+        window.location.href = 'employee.html';
+    }
 }
