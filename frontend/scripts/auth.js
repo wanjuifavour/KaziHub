@@ -1,20 +1,16 @@
+import { log } from 'console';
 import showToast from './toast.js';
 
 const API_BASE = 'http://localhost:5000';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Function to validate email
     const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
-
-    // Function to validate password
     const isValidPassword = (password) => {
         return password.length >= 6;
     };
-
-    // Login Form Submission
     const loginForm = document.getElementById('loginForm');
     loginForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -59,9 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Login';
         }
+      
+        if (!email || !isValidEmail(email)) {
+            showToast('Please enter a valid email address (e.g., user@example.com)', 'error');
+            return;
+        }
+        if (!password || !isValidPassword(password)) {
+            showToast('Password must be at least 6 characters long', 'error');
+            return;
+        }
+        showToast(`Logged in as ${email}`, 'success');
+        document.getElementById('loginModal').classList.add('hidden');
+ main
     });
-
-    // Register Form Submission
     const registerForm = document.getElementById('registerForm');
     registerForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -160,6 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch('http://localhost:5000/reset-password', {
+
+        // Send registration request
+        fetch('http://localhost:5000/register', {
+ main
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token, newPassword })
