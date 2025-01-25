@@ -3,7 +3,6 @@ import showToast from './toast.js';
 document.addEventListener('DOMContentLoaded', () => {
     // Function to validate email
     const isValidEmail = (email) => {
-        // Regex: Must contain "@" and end with ".something" (e.g., .com, .org)
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
@@ -32,8 +31,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Handle successful login
-        showToast(`Logged in as ${email}`, 'success');
-        document.getElementById('loginModal').classList.add('hidden');
+        fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showToast(`Logged in as ${email}`, 'success');                    document.getElementById('loginModal').classList.add('hidden');
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => showToast('Error logging in.', 'error'));
     });
 
     // Register Form Submission
@@ -61,16 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Send registration request
-        fetch('http://localhost:3001/register', {
+        fetch('http://localhost:5000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email, password, role })
         })
-            .then(response => response.text())
-            .then(message => {
-                showToast(message, 'success');
+            .then(response => response.json())
+            .then(data => {
+                showToast(data.message, 'success');
                 document.getElementById('registerModal').classList.add('hidden');
             })
             .catch(error => showToast('Error registering user.', 'error'));
