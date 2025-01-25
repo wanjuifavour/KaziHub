@@ -1,0 +1,57 @@
+@import './reset.css';
+
+:root{
+    --Blue: hsl(225, 87%, 63%);
+    --PaleOrange: hsl(25, 100%, 94%);
+    --Verydarkblue: hsl(220, 13%, 13%);
+    --Darkgrayishblue: hsl(219, 9%, 45%);
+    --Grayishblue: hsl(220, 14%, 75%);
+    --Lightgrayishblue: hsl(223, 64%, 98%);
+    --White: hsl(0, 0%, 100%);
+    --Black: hsl(0, 0%, 0%)
+}
+
+body{
+    font-family: 'Kumbh Sans', sans-serif;
+    background-color: var(--Lightgrayishblue);
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+nav{
+    background-color: var(--Verydarkblue);
+    color: var(--White);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem;
+}
+nav button{
+    background-color: var(--White);
+    color: var(--Verydarkblue);
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+section{
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 3rem;
+}
+.all-employees{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    text-align: center;
+    padding: 2rem 2rem;
+}
+.employeeCard img{
+    width: 80%;
+    height: 200px;
+    border-radius: 50%;
+}
