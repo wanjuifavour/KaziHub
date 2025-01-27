@@ -121,10 +121,24 @@ function updateSidebar(users) {
     });
 }
 
+function updateUserProfile(user) {
+    const userProfile = document.getElementById('user-profile');
+    userProfile.innerHTML = `
+        <img src="${user.profilePic}" alt="Profile Picture">
+        <h3>${user.name}</h3>
+        <p>Available</p>
+    `;
+}
+
 async function init() {
     const chatsData = await fetchMessages();
     const users = await fetchUsers();
     updateSidebar(users);
+
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    if (loggedInUser) {
+        updateUserProfile(loggedInUser);
+    }
 
     let activeChat = '';
     const chatItems = document.querySelectorAll('.chats li');
@@ -146,7 +160,6 @@ async function init() {
     }
 
     logoutButton.addEventListener('click', () => {
-        // alert('You have logged out.');
         window.location.href = './index.html';
     });
 }
