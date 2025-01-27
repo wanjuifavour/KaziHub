@@ -2,7 +2,7 @@ const messageInput = document.querySelector('.input input');
 const sendButton = document.querySelector('.input button');
 const messagesContainer = document.querySelector('.messages');
 const logoutButton = document.getElementById('logoutBtn');
-const chatItems = document.querySelectorAll('.chats li');
+const searchInput = document.querySelector('.search input');
 
 const apiURL = "http://localhost:3000/messages";
 const usersURL = "http://localhost:3000/employees";
@@ -74,11 +74,12 @@ function loadChatMessages(chatName, chatsData) {
 
 async function sendMessage(activeChat, chatsData) {
     const messageText = messageInput.value.trim();
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
-    if (messageText !== '') {
+    if (messageText !== '' && loggedInUser) {
         const newMessage = {
             id: Date.now().toString(), 
-            sender: "You", 
+            sender: loggedInUser.name, 
             receiver: activeChat, 
             message: messageText,
             time: new Date().toLocaleTimeString(), 
@@ -100,6 +101,7 @@ async function sendMessage(activeChat, chatsData) {
 }
 
 function handleChatClick(event, chatsData) {
+    const chatItems = document.querySelectorAll('.chats li');
     chatItems.forEach((item) => item.classList.remove('active'));
     event.currentTarget.classList.add('active');
     const chatName = event.currentTarget.querySelector('span').textContent;
@@ -117,6 +119,9 @@ function updateSidebar(users) {
             <img src="${user.profilePic}" alt="User Picture">
             <span>${user.name}</span>
         `;
+        listItem.addEventListener('click', (event) => {
+            handleChatClick(event, {});
+        });
         chatsList.appendChild(listItem);
     });
 }
@@ -126,18 +131,17 @@ function updateUserProfile(user) {
     userProfile.innerHTML = `
         <img src="${user.profilePic}" alt="Profile Picture">
         <h3>${user.name}</h3>
-        <p>Available</p>
     `;
 }
 
 async function init() {
     const chatsData = await fetchMessages();
     const users = await fetchUsers();
-    updateSidebar(users);
 
     const loggedInUser = JSON.parse(localStorage.getItem('user'));
     if (loggedInUser) {
         updateUserProfile(loggedInUser);
+        updateSidebar(users);
     }
 
     let activeChat = '';
@@ -161,6 +165,13 @@ async function init() {
 
     logoutButton.addEventListener('click', () => {
         window.location.href = './index.html';
+    });
+
+    searchInput.addEventListener('input', async () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const allUsers = await fetchUsers();
+        const filteredUsers = allUsers.filter(user => user.name.toLowerCase().includes(searchTerm));
+        updateSidebar(filteredUsers);
     });
 }
 

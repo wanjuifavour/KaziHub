@@ -124,11 +124,46 @@
       "time": "2:00 PM"
     },
     {
+      "id": "5",
+      "sender": "Jennifer Akinyi",
+      "receiver": "Jane Kamau",
+      "message": "Hi Jane, I need you to prepare a report on the company's financial performance for the last quarter.",
+      "time": "2:00 PM"
+    },
+    {
       "id": "1737900311356",
       "sender": "You",
       "receiver": "Jane Kamau",
       "message": "working on it",
       "time": "5:05:11 PM"
+    },
+    {
+      "id": "1737965907909",
+      "sender": "Jennifer Akinyi",
+      "receiver": "Jane Kamau",
+      "message": "Send me the updates",
+      "time": "11:18:27 AM"
+    },
+    {
+      "id": "1737967047089",
+      "sender": "Jennifer Akinyi",
+      "receiver": "Jane Kamau",
+      "message": "still waiting for the updates",
+      "time": "11:37:27 AM"
+    },
+    {
+      "id": "1737967235553",
+      "sender": "Jennifer Akinyi",
+      "receiver": "Dominic Mburu",
+      "message": "You need to create the report",
+      "time": "11:40:35 AM"
+    },
+    {
+      "id": "1737967256870",
+      "sender": "Jennifer Akinyi",
+      "receiver": "John Amos",
+      "message": "create the reports",
+      "time": "11:40:56 AM"
     }
   ]
 }
