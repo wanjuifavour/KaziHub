@@ -3,9 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./styles/chat.css">
+    <link rel="icon" type="image/x-icon" href="./assets/icon.png">
+    <title>KaziHub</title>
 </head>
 <body>
-    
+    <nav>
+        <h1>Chat</h1>
+        <button type="button" id="logoutBtn">Logout</button>
+    </nav>
+    <div class="container">
+        <div class="sidebar">
+            <div class="profile" id="user-profile">
+                <!-- User profile -->
+            </div>
+            <div class="search">
+                <input type="text" placeholder="Search...">
+            </div>
+            <aside class="sidebar">
+                <ul class="chats">
+                    
+                </ul>
+            </aside>
+        </div>
+
+        <div class="chat-window">
+            <div class="messages">
+                <div class="message">
+                    <p><span class="sender">Jontray Arnold:</span> Recently, I saw properties in a great location...</p>
+                </div>
+                <div class="message">
+                    <p><span class="sender">Kate Johnson:</span> Oooh, why don’t you say something more?</p>
+                </div>
+            </div>
+            <div class="input">
+                <input type="text" placeholder="Write your message...">
+                <button>Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="./scripts/chat.js"></script>
 </body>
 </html>
