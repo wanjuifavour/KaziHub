@@ -1,6 +1,6 @@
 import showToast from './toast.js';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = 'http://localhost:3000';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Function to validate email
