@@ -77,6 +77,7 @@ button{
     background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    height: 90%;
 }
 
 .form-content {
