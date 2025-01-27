@@ -1,10 +1,10 @@
 import showToast from './toast.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || user.role !== 'employee') {
-        window.location.replace('index.html');
-    }
+    // const user = JSON.parse(localStorage.getItem('user'));
+    // if (!user || user.role !== 'employee') {
+    //     window.location.replace('../pages/index.html');
+    // }
 
     // Elements
     const logoutBtn = document.getElementById('logoutBtn');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Handlers
     function handleLogout() {
         localStorage.removeItem('user');
-        window.location.replace('index.html');
+        window.location.replace('../index.html');
     }
 
     function handleProfileCardClick() {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function handleChatCardClick() {
-        window.location.href = 'chat.html';
+        window.location.href = '../pages/chat.html';
     }
 
     function closeModal() {
