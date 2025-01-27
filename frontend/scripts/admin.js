@@ -1,3 +1,4 @@
+import showToast from '../scripts/toast.js';
 
 const fetchEmployees = async () => {
     try {
@@ -56,10 +57,10 @@ const deleteEmployee = async(employeeId) => {
             method: 'DELETE'
         })
         if(response.ok){
-            displayMessage('Employee deleted successfully')
+            showToast('Employee deleted successfully', 'success')
             fetchEmployees()
         }else{
-            displayMessage('Failute to delete employee', true)
+            showToast('Failute to delete employee', 'true')
         }
     } catch (error) {
         console.log(error)
@@ -86,18 +87,7 @@ cancelDeleteButton.onclick = () => {
     deleteEmployeeId = null
 }
 const messageElement = document.getElementById("message");
-  
-const displayMessage = (message, isError = false) => {
-    messageElement.textContent = message;
-    messageElement.style.display = "block";
-    if (isError) {
-        messageElement.classList.remove("success");
-        messageElement.classList.add("error");
-    } else {
-        messageElement.classList.remove("error");
-        messageElement.classList.add("success");
-    }  
-};  
+
 // function checkForm(formId) {
 //     const form = document.getElementById(formId);
 //     const inputs = form.querySelectorAll("input");
@@ -147,11 +137,11 @@ const createNewEmployee = async(employee) => {
         })
         const newEmployee = await response.json()
         console.log(newEmployee)
-        displayMessage("Employee added successfully.");
+        showToast("Employee added successfully.", "success");
         fetchEmployees()
     } catch (error) {
         console.log(error)
-        displayMessage("Error adding employee.", true);
+        showToast("Error adding employee.", "error");
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -206,17 +196,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                displayMessage("Employee updated successfully.");
+                showToast("Employee updated successfully.", "success");
                 fetchEmployees();
                 editPopupForm.style.display = "none";
             } else {
                 const error = await response.json();
-                displayMessage(`Error: ${error.message}`, true);    
+                showToast(`Error: ${error.message}`, "error");    
             }
         } catch (error) {
             console.error("Error updating event:", error);
         }
     })
+        document.getElementById('logoutBtn')?.addEventListener('click', () => {
+            localStorage.removeItem('user');
+            window.location.replace("index.html");
+        });
 
 })
 fetchEmployees()

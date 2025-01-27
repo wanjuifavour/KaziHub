@@ -37,10 +37,4 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.classList.add('hidden');
         }
     });
-
-    // Add logout functionality
-    document.getElementById('logoutBtn')?.addEventListener('click', () => {
-        localStorage.removeItem('user');
-        window.location.reload();
-    });
 });
