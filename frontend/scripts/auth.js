@@ -1,6 +1,6 @@
 import showToast from './toast.js';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = 'http://localhost:3000';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Function to validate email
@@ -13,6 +13,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const isValidPassword = (password) => {
         return password.length >= 6;
     };
+
+    // Function to redirect after Successful login.
+    function handleLoginSuccess(user) {
+        try {
+            localStorage.setItem('user', JSON.stringify(user));
+            showToast(`Welcome ${user.name}!`, 'success');
+            updateUI(user);
+
+            const role = user.role?.toLowerCase();
+            switch (role) {
+                case 'admin':
+                    window.location.href = 'admin.html';
+                    break;
+                case 'manager':
+                    window.location.href = 'manager.html';
+                    break;
+                default:
+                    window.location.href = 'employee.html';
+            }
+        } catch (error) {
+            console.error('Redirect error:', error);
+            showToast('Login error occurred', 'error');
+        }
+    }
 
     // Login Form Submission
     const loginForm = document.getElementById('loginForm');
@@ -36,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`${API_BASE}/users?email=${encodeURIComponent(email)}`);
             const users = await response.json();
             const user = users.find(u => u.email === email && u.password === password);
-            
+
             if (!user) {
                 showToast('Invalid credentials', 'error');
                 return;
@@ -75,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Check if email exists
             const checkResponse = await fetch(`${API_BASE}/users?email=${encodeURIComponent(email)}`);
             const existingUsers = await checkResponse.json();
-            
+
             if (existingUsers.length > 0) {
                 showToast('Email already registered', 'error');
                 return;
@@ -85,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newUser = {
                 name,
                 email,
-                password, // Note: In real application, hash password
+                password,
                 role,
                 createdAt: new Date().toISOString()
             };
@@ -133,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        fetch('http://localhost:5000/forgot-password', {
+        fetch('http://localhost:3000/forgot-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
@@ -164,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        fetch('http://localhost:5000/reset-password', {
+        fetch('http://localhost:3000/reset-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token, newPassword })
@@ -186,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add role-based UI handling
     function updateUI(user) {
         const headerNav = document.querySelector('header nav');
-        
+
         if (user) {
             headerNav.innerHTML = `
                 <span>Welcome, ${user.role}</span>
@@ -198,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button type="button" id="registerBtn">Register</button>
             `;
         }
-        
+
         // Setup button listeners after DOM update
         setupButtonListeners();
     }
@@ -287,7 +311,7 @@ function setupButtonListeners() {
     const loginBtn = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
     const logoutBtn = document.getElementById('logoutBtn');
-    
+
     // Remove old listeners
     const cleanupListeners = () => {
         loginBtn?.replaceWith(loginBtn?.cloneNode(true));
@@ -310,20 +334,4 @@ function setupButtonListeners() {
     document.getElementById('logoutBtn')?.addEventListener('click', () => {
         logout();
     });
-}
-
-function handleLoginSuccess(user) {
-    localStorage.setItem('user', JSON.stringify(user));
-    showToast(`Welcome ${user.name}!`, 'success');
-    updateUI(user);
-    
-    // Role-based navigation
-    const role = user.role.toLowerCase();
-    if (role === 'admin') {
-        window.location.href = 'admin.html';
-    } else if (role === 'manager') {
-        window.location.href = 'manager.html';
-    } else {
-        window.location.href = 'employee.html';
-    }
 }
