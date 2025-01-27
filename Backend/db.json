@@ -240,7 +240,8 @@
       "receiver": "John Amos",
       "message": "You can work with the development team",
       "time": "1:18:46 PM"
-
+    },
+    {
       "id": "5e83",
       "source": "react-devtools-hook-installer",
       "payload": {
