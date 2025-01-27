@@ -72,7 +72,9 @@ function loadChatMessages(chatName, chatsData) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-async function sendMessage(activeChat, chatsData) {
+async function sendMessage(activeChat, chatsData, event) {
+    if (event) event.preventDefault(); // Prevent default form or button behavior
+
     const messageText = messageInput.value.trim();
     const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
@@ -84,16 +86,20 @@ async function sendMessage(activeChat, chatsData) {
             message: messageText,
             time: new Date().toLocaleTimeString(), 
         };
+
         if (!chatsData[activeChat]) {
             chatsData[activeChat] = [];
         }
+
         chatsData[activeChat].push(newMessage);
+
         const messageElement = document.createElement('div');
         messageElement.classList.add('message');
         messageElement.innerHTML = `
             <p><span class="sender">You:</span> ${messageText}</p>
         `;
         messagesContainer.appendChild(messageElement);
+
         await postMessage(newMessage);
         messageInput.value = '';
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -150,15 +156,17 @@ async function init() {
         chatItems[0].classList.add('active');
         activeChat = chatItems[0].querySelector('span').textContent;
         loadChatMessages(activeChat, chatsData);
+
         chatItems.forEach((chat) => {
             chat.addEventListener('click', (event) => {
                 activeChat = handleChatClick(event, chatsData);
             });
         });
-        sendButton.addEventListener('click', () => sendMessage(activeChat, chatsData));
+
+        sendButton.addEventListener('click', (event) => sendMessage(activeChat, chatsData, event));
         messageInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                sendMessage(activeChat, chatsData);
+                sendMessage(activeChat, chatsData, event);
             }
         });
     }

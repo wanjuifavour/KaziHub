@@ -164,6 +164,41 @@
       "receiver": "John Amos",
       "message": "create the reports",
       "time": "11:40:56 AM"
+    },
+    {
+      "id": "1737972361845",
+      "sender": "Adrian Martin",
+      "receiver": "Adrian Martin",
+      "message": "Hi,can you send me the details",
+      "time": "1:06:01 PM"
+    },
+    {
+      "id": "1737972533709",
+      "sender": "Jennifer Akinyi",
+      "receiver": "Adrian Martin",
+      "message": "i need the updates",
+      "time": "13:08:53"
+    },
+    {
+      "id": "1737972583983",
+      "sender": "Jennifer Akinyi",
+      "receiver": "Adrian Martin",
+      "message": "i appreciate that",
+      "time": "13:09:43"
+    },
+    {
+      "id": "1737972831883",
+      "sender": "Jennifer Akinyi",
+      "receiver": "Dominic Mburu",
+      "message": "Send the email to Adrian",
+      "time": "13:13:51"
+    },
+    {
+      "id": "1737973126590",
+      "sender": "Adrian Martin",
+      "receiver": "John Amos",
+      "message": "You can work with the development team",
+      "time": "1:18:46 PM"
     }
   ]
 }
