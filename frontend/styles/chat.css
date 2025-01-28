@@ -17,6 +17,7 @@ body {
   line-height: 1.5;
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 nav{
     background-color: var(--Verydarkblue);
@@ -25,6 +26,8 @@ nav{
     justify-content: space-between;
     align-items: center;
     padding: 2rem 2rem;
+    height: 10%;
+
 }
 nav button{
     background-color: var(--White);
@@ -36,7 +39,7 @@ nav button{
 .container {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  width: 100%;
+  width: 80%;
   height: 85vh;
 }
 .sidebar {

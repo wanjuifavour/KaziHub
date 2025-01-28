@@ -86,11 +86,11 @@ async function sendMessage(activeChat, chatsData, event) {
 
     if (messageText !== '' && loggedInUser) {
         const newMessage = {
-            id: Date.now().toString(), 
-            sender: loggedInUser.name, 
-            receiver: activeChat, 
+            id: Date.now().toString(),
+            sender: loggedInUser.name,
+            receiver: activeChat,
             message: messageText,
-            time: new Date().toLocaleTimeString(), 
+            time: new Date().toLocaleTimeString(),
         };
 
         if (!chatsData[activeChat]) {
@@ -123,7 +123,7 @@ function handleChatClick(event, chatsData) {
 
 function updateSidebar(users, loggedInUser) {
     const chatsList = document.querySelector('.chats');
-    chatsList.innerHTML = ''; 
+    chatsList.innerHTML = '';
 
     const filteredUsers = users.filter(user => user.name !== loggedInUser.name);
 
@@ -180,7 +180,8 @@ async function init() {
     }
 
     logoutButton.addEventListener('click', () => {
-        window.location.href = './index.html';
+        localStorage.removeItem('user');
+        window.location.replace("../index.html");
     });
 
     searchInput.addEventListener('input', async () => {

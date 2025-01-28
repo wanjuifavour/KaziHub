@@ -5,7 +5,9 @@
       "name": "Jennifer Akinyi",
       "email": "jennifer@gmail.com",
       "role": "admin",
-      "password": "123456"
+      "password": "123456",
+      "isVerified": true,
+      "verificationToken": null
     },
     {
       "id": "2",
@@ -26,7 +28,9 @@
       "name": "Adrian Martin",
       "email": "adrian@gmail.com",
       "role": "employee",
-      "password": "123456"
+      "password": "123456",
+      "isVerified": true,
+      "verificationToken": "cbk0kwxl5wn"
     },
     {
       "id": "5",
@@ -52,12 +56,12 @@
       "createdAt": "2025-01-25T21:14:08.721Z"
     },
     {
-      "id": "91be",
-      "name": "Kamau Vincent",
-      "email": "vincent@gmail.com",
-      "password": "12345",
-      "role": "Employee",
-      "createdAt": "2025-01-27T11:02:00.750Z"
+      "id": "7a25",
+      "name": "User Wan",
+      "email": "userwan@gmail.com",
+      "password": "12345678",
+      "role": "Admin",
+      "createdAt": "2025-01-27T09:41:56.109Z"
     }
   ],
   "employees": [
@@ -100,15 +104,6 @@
       "email": "john@gmail.con",
       "phoneNumber": "07986754",
       "salary": "90000"
-    },
-    {
-      "id": "a65f",
-      "name": "Kamau Vincent",
-      "email": "vincent@gmail.com",
-      "department": "Unassigned",
-      "position": "New Hire",
-      "phoneNumber": "",
-      "salary": 0
     }
   ],
   "messages": [
@@ -216,13 +211,8 @@
       "receiver": "John Amos",
       "message": "You can work with the development team",
       "time": "1:18:46 PM"
-    },
-    {
-      "id": "1737978295382",
-      "sender": "Kamau Vincent",
-      "receiver": "Jane Kamau",
-      "message": "I am working on it too",
-      "time": "2:44:55 PM"
     }
-  ]
+  ],
+  "forgot-password": [],
+  "verify-email": []
 }
