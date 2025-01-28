@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Handlers
     function handleLogout() {
         localStorage.removeItem('user');
-        window.location.replace('../index.html');
+        window.location.replace('./index.js');
     }
 
     function handleProfileCardClick() {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function handleChatCardClick() {
-        window.location.href = '../pages/chat.html';
+        window.location.href = './chat.html';
     }
 
     function closeModal() {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Helpers
     async function fetchEmployeeData(email) {
         try {
-            const response = await fetch(`http://localhost:3000/employees?email=${email}`);
+            const response = await fetch(`http://localhost:8500/api/employees?email=${email}`);
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
             if (!data.length) throw new Error('Employee not found');
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function updateEmployee(id, data) {
-        const response = await fetch(`http://localhost:3000/employees/${id}`, {
+        const response = await fetch(`http://localhost:8500/api/employees/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
