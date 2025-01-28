@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        .container { text-align: center; padding: 2rem; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="message">
+            <p>Verifying your email...</p>
+        </div>
+    </div>
+
+    <script>
+        async function verifyEmail() {
+            const token = new URLSearchParams(window.location.search).get('token');
+            
+            try {
+                const response = await fetch(`http://localhost:3000/users?verificationToken=${token}`);
+                if (!response.ok) throw new Error('Verification failed');
+                
+                const users = await response.json();
+                if (users.length === 0) throw new Error('Invalid verification token');
+                
+                // Update verification status
+                await fetch(`http://localhost:3000/users/${users[0].id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ isVerified: true, verificationToken: null })
+                });
+
+                document.getElementById('message').innerHTML = `
+                    <h1 class="success">Email Verified Successfully!</h1>
+                    <p>You can now login to your account.</p>
+                    <a href="http://localhost:3001">Go to Login</a>
+                `;
+            } catch (error) {
+                document.getElementById('message').innerHTML = `
+                    <h1 class="error">Verification Failed</h1>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+        verifyEmail();
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+@import "./reset.css";
+
+:root {
+  --Blue: hsl(225, 87%, 63%);
+  --PaleOrange: hsl(25, 100%, 94%);
+  --Verydarkblue: hsl(220, 13%, 13%);
+  --Darkgrayishblue: hsl(219, 9%, 45%);
+  --Grayishblue: hsl(220, 14%, 75%);
+  --Lightgrayishblue: hsl(223, 64%, 98%);
+  --White: hsl(0, 0%, 100%);
+  --Black: hsl(0, 0%, 0%);
+}
+body {
+  font-family: "Kumbh Sans", sans-serif;
+  background-color: var(--Lightgrayishblue);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+nav{
+    background-color: var(--Verydarkblue);
+    color: var(--White);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem;
+    height: 10%;
+
+}
+nav button{
+    background-color: var(--White);
+    color: var(--Verydarkblue);
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  width: 80%;
+  height: 85vh;
+}
+.sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+}
+.sidebar .profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.sidebar .profile img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+.sidebar .profile h3 {
+  font-size: 18px;
+}
+.sidebar .search {
+  margin-bottom: 20px;
+}
+.sidebar .search input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.sidebar .chats {
+  list-style: none;
+}
+
+.sidebar .chats li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sidebar .chats li img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.sidebar .chats li.active {
+    background-color: var(--Lightgrayishblue);
+    border-left: 4px solid var(--Blue);
+    font-weight: bold;
+}
+
+
+.chat-window {
+  background-color: #ffffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-window .messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.chat-window .messages .message {
+  margin-bottom: 10px;
+}
+
+.chat-window .messages .message .sender {
+  font-weight: bold;
+}
+
+.chat-window .input {
+  display: flex;
+}
+
+.chat-window .input input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+}
+
+.chat-window .input button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}

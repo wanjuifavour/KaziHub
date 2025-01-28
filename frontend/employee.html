@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/employee.css">
+    <link rel="stylesheet" href="./styles/toast.css">
+    <link rel="icon" type="image/x-icon" href="./assets/icon.png">
+    <title>KaziHub - Employee</title>
+</head>
+<body>
+    <header>
+        <h1>Employee Dashboard</h1>
+        <nav>
+            <button id="logoutBtn">Logout</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="dashboard-container">
+            <div class="option-card" id="updateProfileCard">
+                <h2>Update Profile Details</h2>
+                <p class="status-text"></p>
+            </div>
+            
+            <div class="option-card" id="chatCard">
+                <h2>Continue to Chat</h2>
+                <p>Communicate with your team</p>
+            </div>
+        </div>
+
+        <!-- Update Profile Modal -->
+        <div id="updateModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Update Profile</h2>
+                <form id="updateForm">
+                    <div class="form-group">
+                        <label for="updateProfilePic">Profile Picture URL:</label>
+                        <input type="url" id="updateProfilePic" name="profilePic">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateDepartment">Department:</label>
+                        <select id="updateDepartment" name="department" required>
+                            <option value="IT">IT</option>
+                            <option value="HR">HR</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Unassigned">Unassigned</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updatePosition">Position:</label>
+                        <input type="text" id="updatePosition" name="position" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updatePhone">Phone Number:</label>
+                        <input type="tel" id="updatePhone" name="phoneNumber" 
+                            pattern="[0-9]{10}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="toastContainer"></div>
+
+    <script type="module" src="./scripts/employee.js"></script>
+</body>
+</html>

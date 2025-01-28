@@ -1,68 +1,5 @@
-import showToast from "./toast";
+import showToast from '../scripts/toast.js';
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Fetch and display employees on page load
-    fetchEmployees();
-
-    // DOM elements
-    const popupForm = document.querySelector("#popup-form");
-    const addNewEmployeeButton = document.querySelector("#addEmployeeBtn");
-    const closeAddNewEmployee = document.getElementById("close-popup");
-    const employeeForm = document.getElementById("dataForm");
-
-    // Show popup form to add a new employee
-    addNewEmployeeButton.addEventListener("click", () => {
-        popupForm.style.display = "flex";
-    });
-
-    // Close popup form
-    closeAddNewEmployee.addEventListener("click", () => {
-        popupForm.style.display = "none";
-    });
-
-    // Handle new employee form submission
-    employeeForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const employee = {
-            name: document.getElementById("name").value,
-            profilePic: document.getElementById("imageUrl").value,
-            department: document.getElementById("department").value,
-            position: document.getElementById("position").value,
-            email: document.getElementById("email").value,
-            phoneNumber: document.getElementById("phone").value,
-            salary: document.getElementById("salary").value,
-        };
-
-        await createNewEmployee(employee);
-        employeeForm.reset();
-        popupForm.style.display = "none";
-    });
-
-    // Logout functionality
-    const logoutBtn = document.getElementById('logoutBtn');
-    logoutBtn?.addEventListener('click', () => {
-        localStorage.removeItem('user');
-        window.location.href = 'index.html';
-        showToast('Logged out successfully', 'success');
-    });
-
-    // Protect pages based on user roles
-    const user = JSON.parse(localStorage.getItem("user"));
-    const protectedPages = {
-        "admin.html": ["admin"],
-        "manager.html": ["manager"],
-        "employee.html": ["employee", "manager"],
-    };
-
-    const currentPage = window.location.pathname.split("/").pop();
-
-    if (!user || !protectedPages[currentPage]?.includes(user.role.toLowerCase())) {
-        window.location.href = "index.html";
-    }
-});
-
-// Fetch employees from the server
 const fetchEmployees = async () => {
     try {
         const response = await fetch('http://localhost:3000/employees');
@@ -120,10 +57,10 @@ const deleteEmployee = async(employeeId) => {
             method: 'DELETE'
         })
         if(response.ok){
-            displayMessage('Employee deleted successfully')
+            showToast('Employee deleted successfully', 'success')
             fetchEmployees()
         }else{
-            displayMessage('Failute to delete employee', true)
+            showToast('Failute to delete employee', 'true')
         }
     } catch (error) {
         console.log(error)
@@ -150,18 +87,7 @@ cancelDeleteButton.onclick = () => {
     deleteEmployeeId = null
 }
 const messageElement = document.getElementById("message");
-  
-const displayMessage = (message, isError = false) => {
-    messageElement.textContent = message;
-    messageElement.style.display = "block";
-    if (isError) {
-        messageElement.classList.remove("success");
-        messageElement.classList.add("error");
-    } else {
-        messageElement.classList.remove("error");
-        messageElement.classList.add("success");
-    }  
-};  
+
 // function checkForm(formId) {
 //     const form = document.getElementById(formId);
 //     const inputs = form.querySelectorAll("input");
@@ -211,11 +137,11 @@ const createNewEmployee = async(employee) => {
         })
         const newEmployee = await response.json()
         console.log(newEmployee)
-        displayMessage("Employee added successfully.");
+        showToast("Employee added successfully.", "success");
         fetchEmployees()
     } catch (error) {
         console.log(error)
-        displayMessage("Error adding employee.", true);
+        showToast("Error adding employee.", "error");
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -270,17 +196,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                displayMessage("Employee updated successfully.");
+                showToast("Employee updated successfully.", "success");
                 fetchEmployees();
                 editPopupForm.style.display = "none";
             } else {
                 const error = await response.json();
-                displayMessage(`Error: ${error.message}`, true);    
+                showToast(`Error: ${error.message}`, "error");    
             }
         } catch (error) {
             console.error("Error updating event:", error);
         }
     })
+        document.getElementById('logoutBtn')?.addEventListener('click', () => {
+            localStorage.removeItem('user');
+            window.location.replace("../index.html");
+        });
 
 })
 fetchEmployees()

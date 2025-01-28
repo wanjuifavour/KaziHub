@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
         if (user.role.toLowerCase() === 'admin') {
-            window.location.href = 'admin.html';
+            window.location.href = '../admin.html';
         } else if (user.role.toLowerCase() === 'manager') {
-            window.location.href = 'manager.html';
+            window.location.href = '../manager.html';
         } else {
-            window.location.href = 'employee.html';
+            window.location.href = '../employee.html';
         }
     }
 
@@ -36,11 +36,5 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('modal')) {
             e.target.classList.add('hidden');
         }
-    });
-
-    // Add logout functionality
-    document.getElementById('logoutBtn')?.addEventListener('click', () => {
-        localStorage.removeItem('user');
-        window.location.reload();
     });
 });

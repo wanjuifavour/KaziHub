@@ -12,14 +12,58 @@ header,
 footer {
     background-color: #333;
     color: white;
-    position: sticky;
     text-align: center;
     padding: 1rem 0;
+    position: sticky;
+}
+footer{
     bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4%;
+    text-align: center;
+    align-items: center;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6%;
+}
+#indexBtns{
+    margin-right: 2%;
+}
+h1{
+    margin-left: 3%;
 }
 
 main {
     padding: 2rem;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/bg-img.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px); 
+    z-index: -1;
 }
 
 form {
@@ -133,4 +177,25 @@ select {
     cursor: pointer;
     font-size: 1.5rem;
     color: #333;
+}
+
+#loginBtn, #registerBtn {
+    margin: 0 5px 0 5px;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+#content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    padding: 20px;
+    height: 80%;
+    width: 60%;
+    border-radius: 20px;
+    color: #fff;
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
 }
