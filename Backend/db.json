@@ -27,7 +27,7 @@
       "id": "4",
       "name": "Adrian Martin",
       "email": "adrian@gmail.com",
-      "role": "employee",
+      "role": "manager",
       "password": "123456",
       "isVerified": true,
       "verificationToken": "cbk0kwxl5wn"
