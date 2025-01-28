@@ -121,11 +121,13 @@ function handleChatClick(event, chatsData) {
     return chatName;
 }
 
-function updateSidebar(users) {
+function updateSidebar(users, loggedInUser) {
     const chatsList = document.querySelector('.chats');
     chatsList.innerHTML = ''; 
 
-    users.forEach(user => {
+    const filteredUsers = users.filter(user => user.name !== loggedInUser.name);
+
+    filteredUsers.forEach(user => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `
             <img src="${user.profilePic}" alt="User Picture">
@@ -153,7 +155,7 @@ async function init() {
 
     if (loggedInUser) {
         updateUserProfile(loggedInUser);
-        updateSidebar(users);
+        updateSidebar(users, loggedInUser);
     }
 
     let activeChat = '';
@@ -184,8 +186,8 @@ async function init() {
     searchInput.addEventListener('input', async () => {
         const searchTerm = searchInput.value.toLowerCase();
         const allUsers = await fetchUsers();
-        const filteredUsers = allUsers.filter(user => user.name.toLowerCase().includes(searchTerm));
-        updateSidebar(filteredUsers);
+        const filteredUsers = allUsers.filter(user => user.name.toLowerCase().includes(searchTerm) && user.name !== loggedInUser.name);
+        updateSidebar(filteredUsers, loggedInUser);
     });
 
     // Reload messages every 2 seconds
