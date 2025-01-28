@@ -66,12 +66,14 @@
     {
       "name": "Favour Wanjui",
       "email": "wanjui.dev@gmail.com",
-      "password": "12345678",
+      "password": "87654321",
       "role": "Employee",
       "isVerified": true,
       "verificationToken": null,
       "createdAt": "2025-01-28T08:18:58.069Z",
-      "id": "5fSaZtG"
+      "id": "5fSaZtG",
+      "resetToken": null,
+      "resetTokenExpiry": null
     },
     {
       "name": "Favour Wanjui",
@@ -81,7 +83,9 @@
       "isVerified": true,
       "verificationToken": null,
       "createdAt": "2025-01-28T08:21:02.798Z",
-      "id": "pbqxcGS"
+      "id": "pbqxcGS",
+      "resetToken": "fqi3pknjg47",
+      "resetTokenExpiry": 1738064521503
     }
   ],
   "employees": [

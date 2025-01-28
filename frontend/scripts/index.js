@@ -23,6 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show Register Modal
     registerBtn.addEventListener('click', () => registerModal.classList.remove('hidden'));
 
+    const showForgotPasswordLink = document.getElementById('showForgotPassword');
+    const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+
+    // Show Forgot Password Modal when link is clicked
+    showForgotPasswordLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginModal.classList.add('hidden');
+        forgotPasswordModal.classList.remove('hidden');
+    });
+
     // Close Modals
     closeButtons.forEach((button) =>
         button.addEventListener('click', (e) => {
