@@ -1,10 +1,10 @@
 import showToast from './toast.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // const user = JSON.parse(localStorage.getItem('user'));
-    // if (!user || user.role !== 'employee') {
-    //     window.location.replace('../pages/index.html');
-    // }
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.role !== 'employee') {
+        window.location.replace('index.html');
+    }
 
     // Elements
     const logoutBtn = document.getElementById('logoutBtn');
