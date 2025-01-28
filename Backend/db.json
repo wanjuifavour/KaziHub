@@ -64,14 +64,24 @@
       "createdAt": "2025-01-27T09:41:56.109Z"
     },
     {
-      "name": "Jennifer Ouma",
-      "email": "jennifer.o.akinyi@gmail.com",
+      "name": "Favour Wanjui",
+      "email": "wanjui.dev@gmail.com",
+      "password": "12345678",
+      "role": "Employee",
+      "isVerified": true,
+      "verificationToken": null,
+      "createdAt": "2025-01-28T08:18:58.069Z",
+      "id": "5fSaZtG"
+    },
+    {
+      "name": "Favour Wanjui",
+      "email": "favorwanjui@gmail.com",
       "password": "12345678",
       "role": "Manager",
-      "isVerified": false,
-      "verificationToken": "ms1jozp2pwr",
-      "createdAt": "2025-01-28T08:14:53.955Z",
-      "id": "oi5cezu"
+      "isVerified": true,
+      "verificationToken": null,
+      "createdAt": "2025-01-28T08:21:02.798Z",
+      "id": "pbqxcGS"
     }
   ],
   "employees": [
@@ -114,6 +124,15 @@
       "email": "john@gmail.con",
       "phoneNumber": "07986754",
       "salary": "90000"
+    },
+    {
+      "email": "wanjui.dev@gmail.com",
+      "name": "Favour Wanjui",
+      "department": "IT",
+      "profilePic": "https://plus.unsplash.com/premium_photo-1689977968861-9c91dbb16049?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D",
+      "position": "Software Developer",
+      "phoneNumber": "0712345678",
+      "id": "vWUM21j"
     }
   ],
   "messages": [

@@ -66,6 +66,10 @@ button{
     border-radius: 5px;
     margin-top: 0.8rem;
 }
+#mgBtn{
+    display: flex;
+    gap: 25px;
+}
 .popup-form {
     display: none;
     position: fixed;
