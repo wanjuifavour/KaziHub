@@ -52,12 +52,12 @@
       "createdAt": "2025-01-25T21:14:08.721Z"
     },
     {
-      "id": "7a25",
-      "name": "User Wan",
-      "email": "userwan@gmail.com",
-      "password": "12345678",
-      "role": "Admin",
-      "createdAt": "2025-01-27T09:41:56.109Z"
+      "id": "91be",
+      "name": "Kamau Vincent",
+      "email": "vincent@gmail.com",
+      "password": "12345",
+      "role": "Employee",
+      "createdAt": "2025-01-27T11:02:00.750Z"
     }
   ],
   "employees": [
@@ -100,6 +100,15 @@
       "email": "john@gmail.con",
       "phoneNumber": "07986754",
       "salary": "90000"
+    },
+    {
+      "id": "a65f",
+      "name": "Kamau Vincent",
+      "email": "vincent@gmail.com",
+      "department": "Unassigned",
+      "position": "New Hire",
+      "phoneNumber": "",
+      "salary": 0
     }
   ],
   "messages": [
@@ -207,6 +216,13 @@
       "receiver": "John Amos",
       "message": "You can work with the development team",
       "time": "1:18:46 PM"
+    },
+    {
+      "id": "1737978295382",
+      "sender": "Kamau Vincent",
+      "receiver": "Jane Kamau",
+      "message": "I am working on it too",
+      "time": "2:44:55 PM"
     }
   ]
 }

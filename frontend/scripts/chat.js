@@ -7,17 +7,23 @@ const searchInput = document.querySelector('.search input');
 const apiURL = "http://localhost:3000/messages";
 const usersURL = "http://localhost:3000/employees";
 
-async function fetchMessages() {
+async function fetchMessages(loggedInUser) {
     try {
         const response = await fetch(apiURL);
         const messages = await response.json();
 
         const groupedMessages = {};
         messages.forEach((message) => {
-            if (!groupedMessages[message.receiver]) {
-                groupedMessages[message.receiver] = [];
+            if (message.sender === loggedInUser.name || message.receiver === loggedInUser.name) {
+                if (!groupedMessages[message.receiver]) {
+                    groupedMessages[message.receiver] = [];
+                }
+                if (!groupedMessages[message.sender]) {
+                    groupedMessages[message.sender] = [];
+                }
+                groupedMessages[message.receiver].push(message);
+                groupedMessages[message.sender].push(message);
             }
-            groupedMessages[message.receiver].push(message);
         });
 
         return groupedMessages;
@@ -141,10 +147,10 @@ function updateUserProfile(user) {
 }
 
 async function init() {
-    const chatsData = await fetchMessages();
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    let chatsData = await fetchMessages(loggedInUser);
     const users = await fetchUsers();
 
-    const loggedInUser = JSON.parse(localStorage.getItem('user'));
     if (loggedInUser) {
         updateUserProfile(loggedInUser);
         updateSidebar(users);
@@ -181,6 +187,14 @@ async function init() {
         const filteredUsers = allUsers.filter(user => user.name.toLowerCase().includes(searchTerm));
         updateSidebar(filteredUsers);
     });
+
+    // Reload messages every 2 seconds
+    setInterval(async () => {
+        chatsData = await fetchMessages(loggedInUser);
+        if (activeChat) {
+            loadChatMessages(activeChat, chatsData);
+        }
+    }, 2000);
 }
 
 init();
