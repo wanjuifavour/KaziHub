@@ -2,7 +2,7 @@ import showToast from '../scripts/toast.js';
 
 const fetchEmployees = async () => {
     try {
-        const response = await fetch('http://localhost:3000/employees');
+        const response = await fetch('http://localhost:8500/api/employees');
         const employees = await response.json()
         getEmployees(employees)
     } catch (error) {
@@ -53,7 +53,7 @@ const getEmployees = (employees) => {
 
 const deleteEmployee = async(employeeId) => {
     try {
-        const response = await fetch(`http://localhost:3000/employees/${employeeId}`, {
+        const response = await fetch(`http://localhost:8500/api/employees/${employeeId}`, {
             method: 'DELETE'
         })
         if(response.ok){
@@ -128,7 +128,7 @@ employeeForm.addEventListener('submit', (e) =>{
 })
 const createNewEmployee = async(employee) => {
     try {
-        const response = await fetch("http://localhost:3000/employees", {
+        const response = await fetch("http://localhost:8500/api/employees", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updatedEvent[key] = value;
         });
         try {
-            const response = await fetch(`http://localhost:3000/employees/${id}`, {
+            const response = await fetch(`http://localhost:8500/api/employees/${id}`, {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
         document.getElementById('logoutBtn')?.addEventListener('click', () => {
             localStorage.removeItem('user');
-            window.location.replace("../index.html");
+            window.location.replace("./index.html");
         });
 
 })

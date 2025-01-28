@@ -1,6 +1,6 @@
 import showToast from './toast.js';
 
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'http://localhost:8500/api';
 const NODE_SERVER = 'http://localhost:8500';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,10 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
             // Check for existing user
             const checkRes = await fetch(`${API_BASE}/users?email=${email}`);
             if (!checkRes.ok) throw new Error('Failed to check existing users');
-            
+
             const existingUsers = await checkRes.json();
-            if (existingUsers.some(u => u.isVerified)) {
-                showToast('Email already registered', 'error');
+            if (existingUsers.length > 0) {
+                const existingUser = existingUsers[0];
+                if (existingUser.isVerified) {
+                    showToast('Email already registered', 'error');
+                } else {
+                    // Resend verification email
+                    const emailRes = await fetch(`${NODE_SERVER}/send-verification-email`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, token: existingUser.verificationToken })
+                    });
+                    if (!emailRes.ok) throw new Error('Failed to resend verification email');
+                    showToast('Verification email resent. Please check your inbox.', 'success');
+                }
                 return;
             }
 
@@ -60,6 +72,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Login handler
+    document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const submitBtn = e.target.querySelector('button');
+
+        try {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+
+            const res = await fetch(`${API_BASE}/users?email=${email}`);
+            if (!res.ok) throw new Error('Login failed');
+
+            const users = await res.json();
+            if (users.length === 0) throw new Error('User not found');
+
+            const user = users[0];
+            if (user.password !== password) throw new Error('Incorrect password');
+
+            if (!user.isVerified) {
+                showToast('Please verify your email before logging in.', 'error');
+                return;
+            }
+
+            localStorage.setItem('user', JSON.stringify(user));
+            showToast('Login successful! Redirecting...', 'success');
+
+            const role = user.role.toLowerCase();
+            if (role === 'admin') {
+                window.location.href = 'admin.html';
+            } else if (role === 'manager') {
+                window.location.href = 'manager.html';
+            } else {
+                window.location.href = 'employee.html';
+            }
+        } catch (error) {
+            showToast(error.message, 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Login';
+        }
+    });
+
     // Forgot password handler
     document.getElementById('forgotPasswordForm')?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -74,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!res.ok) throw new Error(await res.text());
-            
+
             showToast('Password reset instructions sent to your email', 'success');
             document.getElementById('forgotPasswordModal').classList.add('hidden');
         } catch (error) {

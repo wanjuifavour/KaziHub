@@ -4,8 +4,8 @@ const messagesContainer = document.querySelector('.messages');
 const logoutButton = document.getElementById('logoutBtn');
 const searchInput = document.querySelector('.search input');
 
-const apiURL = "http://localhost:3000/messages";
-const usersURL = "http://localhost:3000/employees";
+const apiURL = "http://localhost:8500/messages";
+const usersURL = "http://localhost:8500/api/employees";
 
 async function fetchMessages() {
     try {

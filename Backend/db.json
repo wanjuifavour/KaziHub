@@ -60,28 +60,20 @@
       "name": "User Wan",
       "email": "userwan@gmail.com",
       "password": "12345678",
-      "role": "Admin",
+      "role": "employee",
+      "isVerified": true,
+      "verificationToken": "em8o7m9zaxg",
       "createdAt": "2025-01-27T09:41:56.109Z"
     },
     {
-      "id": "cc45",
-      "name": "Favour Wanjui",
-      "email": "favorwanjui@gmail.com",
-      "password": "12345678",
-      "role": "Admin",
-      "isVerified": false,
-      "verificationToken": "em8o7m9zaxg",
-      "createdAt": "2025-01-27T20:07:52.794Z"
-    },
-    {
-      "id": "5a5d",
       "name": "Favour Wanjui",
       "email": "wanjui.dev@gmail.com",
       "password": "12345678",
-      "role": "Admin",
-      "isVerified": false,
-      "verificationToken": "vb3qlya5ld",
-      "createdAt": "2025-01-27T20:21:08.304Z"
+      "role": "Manager",
+      "isVerified": true,
+      "verificationToken": null,
+      "createdAt": "2025-01-28T07:29:40.531Z",
+      "id": "WbJRxBk"
     }
   ],
   "employees": [
@@ -124,15 +116,6 @@
       "email": "john@gmail.con",
       "phoneNumber": "07986754",
       "salary": "90000"
-    },
-    {
-      "id": "2eec",
-      "name": "Favour Wanjui",
-      "email": "favorwanjui@gmail.com",
-      "department": "Unassigned",
-      "position": "New Hire",
-      "phoneNumber": "",
-      "salary": 0
     }
   ],
   "messages": [
