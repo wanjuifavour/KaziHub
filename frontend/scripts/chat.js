@@ -181,7 +181,7 @@ async function init() {
 
     logoutButton.addEventListener('click', () => {
         localStorage.removeItem('user');
-        window.location.replace("../index.html");
+        window.location.replace("./index.html");
     });
 
     searchInput.addEventListener('input', async () => {
