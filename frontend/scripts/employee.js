@@ -1,9 +1,11 @@
 import showToast from './toast.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Get logged in user first
     const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || user.role !== 'employee') {
-        window.location.replace('index.html');
+    if (!user) {
+        window.location.replace('./index.html');
+        return;
     }
 
     // Elements
@@ -26,11 +28,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Handlers
     function handleLogout() {
         localStorage.removeItem('user');
-        window.location.replace('./index.js');
+        window.location.replace('./index.html');
     }
 
     function handleProfileCardClick() {
-        updateModal.style.display = 'block';
+        updateModal.style.display = 'flex';
         if (employee) {
             document.getElementById('updateProfilePic').value = employee.profilePic || '';
             document.getElementById('updateDepartment').value = employee.department || 'Unassigned';
@@ -49,6 +51,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function handleFormSubmit(e) {
         e.preventDefault();
+        if (!employee) {
+            showToast('Employee profile not found. Please try logging in again.', 'error');
+            return;
+        }
+        
         const formData = getFormData();
         
         try {
@@ -56,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             await updateEmployee(employee.id, formData);
             showToast('Profile updated successfully!', 'success');
             closeModal();
-            setTimeout(() => window.location.reload(), 1500);
+            setTimeout(() => window.location.reload(), 300000);
         } catch (error) {
             showToast(error.message || 'Update failed', 'error');
         }
@@ -68,7 +75,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(`http://localhost:8500/api/employees?email=${email}`);
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
-            if (!data.length) throw new Error('Employee not found');
+            
+            if (!data.length) {
+                // Create new employee record
+                const newEmployee = {
+                    email,
+                    name: user.name, // From logged in user
+                    department: 'Unassigned',
+                    profilePic: '',
+                    position: '',
+                    phoneNumber: ''
+                };
+                const createRes = await fetch('http://localhost:8500/api/employees', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newEmployee)
+                });
+                if (!createRes.ok) throw new Error('Failed to create employee record');
+                return await createRes.json();
+            }
+            
             return data[0];
         } catch (error) {
             showToast(error.message, 'error');

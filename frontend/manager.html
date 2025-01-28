@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,16 @@
     <title>KaziHub</title>
     <script type="module" src="./scripts/authCheck.js" defer></script>
 </head>
+
 <body>
     <nav>
         <h1>Manager Dashboard</h1>
-        <button type="button" id="addEmployeeBtn">+Add Employee</button>
+        <div id="mgBtn">
+            <button type="button" id="addEmployeeBtn">+Add Employee</button>
+            <button type="button" id="chatBtn">Go to chat</button>
+        </div>
         <button type="button" id="logoutBtn">Logout</button>
     </nav>
-    <h2>All Employees</h2>
     <section>
         <div class="all-employees" id="all-employees">
             <!-- employees will be displayed here -->
@@ -28,17 +32,17 @@
                 <label for="title">Name:</label>
                 <input type="text" id="name" title="Enter employee name" placeholder="Enter employee name" required />
                 <label for="imageUrl">Profile Picture:</label>
-                <input type="url" id="imageUrl"/>
+                <input type="url" id="imageUrl" />
                 <label for="department">Department: </label>
-                <input type="text" id="department"/>
+                <input type="text" id="department" />
                 <label for="position">Position: </label>
-                <input type="text" id="position"/>
+                <input type="text" id="position" />
                 <label for="email">Email: </label>
-                <input type="email" id="email"/>
+                <input type="email" id="email" />
                 <label for="phone">Phone Number: </label>
-                <input type="tel" id="phone"/>
+                <input type="tel" id="phone" />
                 <label for="salary">Salary: </label>
-                <input type="number" id="salary"/>
+                <input type="number" id="salary" />
                 <button type="submit">Submit</button>
             </form>
         </div>
@@ -53,7 +57,8 @@
                 <label for="edit-imageUrl">Profile Picture:</label>
                 <input type="url" id="edit-imageUrl" name="imageUrl" required />
                 <label for="edit-description">Department:</label>
-                <input type="text" id="edit-department" name="department" title="Enter department" placeholder="Enter department" required />
+                <input type="text" id="edit-department" name="department" title="Enter department"
+                    placeholder="Enter department" required />
                 <label for="edit-position">Position:</label>
                 <input type="text" id="edit-position" name="position" required />
                 <label for="edit-email">Email:</label>
@@ -77,4 +82,5 @@
     </div>
     <script type="module" src="./scripts/manager.js" defer></script>
 </body>
+
 </html>
