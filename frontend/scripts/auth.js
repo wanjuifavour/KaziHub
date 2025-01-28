@@ -140,4 +140,57 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = 'Send Reset Link';
         }
     });
+
+    // Reset password handler
+    document.getElementById('resetPasswordForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newPassword = document.getElementById('newPassword').value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+        const token = document.getElementById('resetToken').value;
+        const submitBtn = e.target.querySelector('button');
+
+        if (newPassword !== confirmPassword) {
+            showToast('Passwords do not match', 'error');
+            return;
+        }
+
+        try {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Resetting...';
+
+            const res = await fetch(`${API_BASE}/users?resetToken=${token}`);
+            if (!res.ok) throw new Error('Failed to find user');
+
+            const users = await res.json();
+            if (users.length === 0) throw new Error('Invalid or expired reset token');
+
+            const user = users[0];
+            if (user.resetTokenExpiry < Date.now()) {
+                throw new Error('Reset token has expired');
+            }
+
+            // Update the user's password
+            const updateRes = await fetch(`${API_BASE}/users/${user.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    password: newPassword,
+                    resetToken: null,
+                    resetTokenExpiry: null
+                })
+            });
+
+            if (!updateRes.ok) throw new Error('Failed to update password');
+
+            showToast('Password reset successful! Please login.', 'success');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        } catch (error) {
+            showToast(error.message, 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Reset Password';
+        }
+    });
 });
