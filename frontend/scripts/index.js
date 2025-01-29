@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if user is already logged in
+    // Check if user is logged in
     const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
+    if (user && user.role) {
         if (user.role.toLowerCase() === 'admin') {
             window.location.href = 'admin.html';
         } else if (user.role.toLowerCase() === 'manager') {
@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerModal = document.getElementById('registerModal');
     const closeButtons = document.querySelectorAll('.close');
 
-    // Show Login Modal
+    // Login Modal
     loginBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
 
-    // Show Register Modal
+    // Register Modal
     registerBtn.addEventListener('click', () => registerModal.classList.remove('hidden'));
 
     const showForgotPasswordLink = document.getElementById('showForgotPassword');
     const forgotPasswordModal = document.getElementById('forgotPasswordModal');
 
-    // Show Forgot Password Modal when link is clicked
+    // Forgot Password Modal
     showForgotPasswordLink.addEventListener('click', (e) => {
         e.preventDefault();
         loginModal.classList.add('hidden');

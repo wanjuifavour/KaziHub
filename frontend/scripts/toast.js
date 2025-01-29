@@ -1,5 +1,11 @@
 const showToast = (message, type = "info") => {
-    const toastContainer = document.getElementById('toastContainer');
+    let toastContainer = document.getElementById('toastContainer');
+
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        document.body.appendChild(toastContainer);
+    }
 
     const toast = document.createElement('div');
     toast.classList.add('toast', type);
@@ -10,6 +16,8 @@ const showToast = (message, type = "info") => {
     setTimeout(() => {
         toast.remove();
     }, 10000);
+
+    return toast;
 }
 
 export default showToast;
