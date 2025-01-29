@@ -8,24 +8,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Elements
     const logoutBtn = document.getElementById('logoutBtn');
     const profileCard = document.getElementById('updateProfileCard');
     const chatCard = document.getElementById('chatCard');
     const updateModal = document.getElementById('updateModal');
     
-    // Event Listeners
     logoutBtn.addEventListener('click', handleLogout);
     profileCard.addEventListener('click', handleProfileCardClick);
     chatCard.addEventListener('click', handleChatCardClick);
     document.querySelector('.close').addEventListener('click', closeModal);
     document.getElementById('updateForm').addEventListener('submit', handleFormSubmit);
 
-    // Initialize
     let employee = await fetchEmployeeData(user.email);
     updateProfileStatus(employee);
 
-    // Handlers
     function handleLogout() {
         localStorage.removeItem('user');
         window.location.replace('./index.html');
@@ -69,7 +65,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Helpers
     async function fetchEmployeeData(email) {
         try {
             const response = await fetch(`http://localhost:8500/api/employees?email=${email}`);
@@ -77,10 +72,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await response.json();
             
             if (!data.length) {
-                // Create new employee record
                 const newEmployee = {
                     email,
-                    name: user.name, // From logged in user
+                    name: user.name,
                     department: 'Unassigned',
                     profilePic: '',
                     position: '',

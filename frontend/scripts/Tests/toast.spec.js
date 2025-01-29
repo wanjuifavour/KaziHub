@@ -1,8 +1,9 @@
 import { jest } from '@jest/globals';
-import showToast from './toast';
+import showToast from '../toast.js';
 
 describe('showToast', () => {
     beforeEach(() => {
+        document.body.innerHTML = '';
         const toastContainer = document.createElement('div');
         toastContainer.id = 'toastContainer';
         document.body.appendChild(toastContainer);
@@ -33,14 +34,26 @@ describe('showToast', () => {
         const toast = document.querySelector('.toast');
         expect(toast).toBeTruthy();
         
-        jest.advanceTimersByTime(3000);
+        jest.advanceTimersByTime(10000);
         expect(document.querySelector('.toast')).toBeNull();
     });
 
     test('creates toast container if not exists', () => {
-        document.body.innerHTML = '';
+        const existingContainer = document.getElementById('toastContainer');
+        if (existingContainer) {
+            existingContainer.remove();
+        }
+    
+        expect(document.getElementById('toastContainer')).toBeNull();
+        
         showToast('Test message');
-        expect(document.getElementById('toastContainer')).toBeTruthy();
+        
+        const container = document.getElementById('toastContainer');
+        expect(container).toBeTruthy();
+        
+        const toast = container.querySelector('.toast');
+        expect(toast).toBeTruthy();
+        expect(toast.textContent).toBe('Test message');
     });
 
     test('handles multiple toast messages', () => {

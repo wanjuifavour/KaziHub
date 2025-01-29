@@ -37,6 +37,9 @@
             </div>
         </div>
     </div>
-    <script src="./scripts/chat.js"></script>
+    <script type="module">
+        import { init } from '../scripts/chat.js';
+        document.addEventListener('DOMContentLoaded', init);
+      </script>
 </body>
 </html>
