@@ -47,7 +47,7 @@ app.post('/send-verification-email', async (req, res) => {
         console.log('Attempting to send email to:', email);
 
         const mailOptions = {
-            from: `"KaziHub" <${process.env.EMAIL_USER}>`,
+            from: `"KAZIHUB" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: 'Verify Your Email Address',
             html: `<p>Verify: <a href="http://127.0.0.1:5500/frontend/pages/auth/verify-email.html?token=${token}">Link</a></p>`
@@ -88,7 +88,7 @@ app.post('/forgot-password', async (req, res) => {
 
         // Send email
         const mailOptions = {
-            from: `<${process.env.EMAIL_USER}>`,
+            from: `"KAZIHUB" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: 'Password Reset Request',
             html: `<p>Reset password: <a href="http://127.0.0.1:5500/frontend/pages/auth/reset-password.html?token=${resetToken}">Reset Link</a></p>`
