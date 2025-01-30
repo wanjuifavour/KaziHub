@@ -4,7 +4,8 @@
   "description": "\"# KaziHub\"",
   "main": "jest.config.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "cypress": "cypress open"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "babel-jest": "^29.7.0",
+    "cypress": "^14.0.1",
     "jest": "^29.7.0",
     "jsdom": "^26.0.0"
   },

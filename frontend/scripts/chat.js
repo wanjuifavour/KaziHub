@@ -7,7 +7,7 @@ const searchInput = document.querySelector('.search input');
 const apiURL = "http://localhost:8500/messages";
 const usersURL = "http://localhost:8500/api/employees";
 
-async function fetchMessages(loggedInUser) {
+export async function fetchMessages(loggedInUser) {
     try {
         const response = await fetch(apiURL);
         const messages = await response.json();
@@ -33,7 +33,7 @@ async function fetchMessages(loggedInUser) {
     }
 }
 
-async function fetchUsers() {
+export async function fetchUsers() {
     try {
         const response = await fetch(usersURL);
         const users = await response.json();
@@ -44,7 +44,7 @@ async function fetchUsers() {
     }
 }
 
-async function postMessage(messageData) {
+export async function postMessage(messageData) {
     try {
         const response = await fetch(apiURL, {
             method: "POST",
@@ -64,7 +64,7 @@ async function postMessage(messageData) {
     }
 }
 
-function loadChatMessages(chatName, chatsData) {
+export function loadChatMessages(chatName, chatsData) {
     messagesContainer.innerHTML = '';
     const messages = chatsData[chatName] || [];
     messages.forEach((message) => {
@@ -78,7 +78,7 @@ function loadChatMessages(chatName, chatsData) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-async function sendMessage(activeChat, chatsData, event) {
+export async function sendMessage(activeChat, chatsData, event) {
     if (event) event.preventDefault(); // Prevent default form or button behavior
 
     const messageText = messageInput.value.trim();
@@ -112,7 +112,7 @@ async function sendMessage(activeChat, chatsData, event) {
     }
 }
 
-function handleChatClick(event, chatsData) {
+export function handleChatClick(event, chatsData) {
     const chatItems = document.querySelectorAll('.chats li');
     chatItems.forEach((item) => item.classList.remove('active'));
     event.currentTarget.classList.add('active');
@@ -121,7 +121,7 @@ function handleChatClick(event, chatsData) {
     return chatName;
 }
 
-function updateSidebar(users, loggedInUser) {
+export function updateSidebar(users, loggedInUser) {
     const chatsList = document.querySelector('.chats');
     chatsList.innerHTML = '';
 
@@ -140,7 +140,7 @@ function updateSidebar(users, loggedInUser) {
     });
 }
 
-function updateUserProfile(user) {
+export function updateUserProfile(user) {
     const userProfile = document.getElementById('user-profile');
     userProfile.innerHTML = `
         <img src="${user.profilePic}" alt="Profile Picture">
@@ -148,7 +148,7 @@ function updateUserProfile(user) {
     `;
 }
 
-async function init() {
+export async function init() {
     const loggedInUser = JSON.parse(localStorage.getItem('user'));
     let chatsData = await fetchMessages(loggedInUser);
     const users = await fetchUsers();
