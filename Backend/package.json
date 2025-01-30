@@ -1,7 +1,7 @@
 {
-  "name": "KaziHub",
+  "name": "kazihub",
   "version": "1.0.0",
-  "description": "\"# KaziHub\"",
+  "description": "An employee management system",
   "main": "index.js",
   "scripts": {
     "test": "jest",
